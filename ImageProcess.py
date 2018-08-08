@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import matplotlib.patches as patches
 import os
 import math
 from PIL import Image, ImageDraw
@@ -30,6 +31,7 @@ if img_num > 0:
     p3 = [0]*2
     p4 = [0]*2
     offset = [0]*2
+    offset2 = [0]*2
     results_c = []
     results_r = []
     point = plt.ginput(2, timeout = 0)
@@ -45,9 +47,8 @@ if img_num > 0:
     p2.append(math.floor(max(point[0][1],point[1][1])))'''
     offset[0] = abs(math.floor(point[0][0]) - math.floor(point[1][0]))
     offset[1] = abs(math.floor(point[0][1]) - math.floor(point[1][1]))
-    '''x = [p1[0], p1[0]+offset[0], p1[0]+offset[0], p1[0], p1[0]]
+    x = [p1[0], p1[0]+offset[0], p1[0]+offset[0], p1[0], p1[0]]
     y = [p1[1], p1[1], p1[1]+offset[1], p1[1]+offset[1], p1[1]]
-    plt.plot(x,y,'r')'''
     II = I[p1[1]:p2[1],p1[0]:p2[0],:]
     plt.close()
     plt.figure(2)
@@ -58,6 +59,10 @@ if img_num > 0:
     p3[1] = int(min(math.floor(point2[0][1]), math.floor(point2[1][1])))
     p4[0] = int(max(math.floor(point2[0][0]), math.floor(point2[1][0])))
     p4[1] = int(max(math.floor(point2[0][1]), math.floor(point2[1][1])))
+    offset2[0] = abs(math.floor(point2[0][0]) - math.floor(point2[1][0]))
+    offset2[1] = abs(math.floor(point2[0][1]) - math.floor(point2[1][1]))
+    x2 = [p3[0], p3[0]+offset2[0], p3[0]+offset2[0], p3[0], p3[0]]
+    y2 = [p3[1], p3[1], p3[1]+offset2[1], p3[1]+offset2[1], p3[1]]
     img_g = rgb2gray(II)
     plt.close()
     for m in range(0, img_num):
@@ -72,8 +77,12 @@ if img_num > 0:
         results_r.append(Result_Row)
         plt.subplot(2,2,1)
         plt.imshow(image)
+        plt.hold('ture')
+        plt.plot(x,y,'r')
         plt.subplot(2,2,2)
         plt.imshow(image_2)
+        plt.hold('ture')
+        plt.plot(x2,y2,'r')
         plt.subplot(2,2,3)
         plt.plot(Result_Column)
         plt.title('Vertical')
